@@ -14,7 +14,7 @@ const Header = () => {
     return (
         <Navbar expand="lg" variant="dark">
             <Container>
-                <Navbar.Brand className='flex-grow-1' href="/"><img src={Logo} style={{ width: "110px" }} alt="" /></Navbar.Brand>
+                <Link className='flex-grow-1' to="/"><img src={Logo} style={{ width: "110px" }} alt="" /></Link>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     {location.pathname == "/user/login" || location.pathname == "/user/register" ? '' : <Form className="d-flex me-lg-3">
@@ -32,11 +32,11 @@ const Header = () => {
                         style={{ maxHeight: '100vh' }}
                         navbarScroll
                     >
-                        <Link to="" className='text-white text-decoration-none me-md-3'>Packages</Link>
+                        <Link to="/page/packages" className='text-white text-decoration-none me-md-3'>Packages</Link>
                         <Link to="/booking" className='text-white text-decoration-none me-md-3'>Booking</Link>
                         <Link to="" className='text-white text-decoration-none me-md-3'>Blog</Link>
                         <Nav.Link className='text-white' href="#action2">Contact</Nav.Link>
-                        <Link to="/user/login"><Button className='btn-warning btn-sm ms-5'>Login</Button></Link>
+                        <Link to="/page/login"><Button className='btn-warning btn-sm ms-5'>Login</Button></Link>
                     </Nav>
 
                 </Navbar.Collapse>

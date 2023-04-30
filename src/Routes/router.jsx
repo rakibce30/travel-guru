@@ -5,10 +5,13 @@ import Booking from "../Page/Booking/Booking";
 import Login from "../Page/Login/Login";
 import LoginLayout from "../Layout/LoginLayout";
 import Register from "../Page/Register/Register";
+import PageNotFound from "../Page/PageNotFound/PageNotFound";
+import Packages from "../Page/Packages/Packages";
 const router = createBrowserRouter([
     {
         path: '/',
         element: <HomeLayout></HomeLayout>,
+        errorElement: <PageNotFound></PageNotFound>,
         children: [
             {
                 path: '/',
@@ -21,7 +24,7 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: '/user',
+        path: '/page',
         element: <LoginLayout></LoginLayout>,
         children: [
             {
@@ -31,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 element: <Register></Register>
+            },
+            {
+                path: 'packages',
+                element: <Packages></Packages>
             }
         ]
     }
