@@ -1,9 +1,35 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = () => {
+    const { userLogin } = useContext(AuthContext);
+    const [Error, setError] = useState('');
+    const [Success, setSuccess] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
+
+    const handleLogin = event => {
+        event.preventDefault();
+
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        setError('');
+        setSuccess('');
+
+        userLogin(email, password)
+            .then(result => {
+                setSuccess("Login successful")
+                form.reset();
+                navigate(from, {replace: true});
+            })
+            .catch(err => setError(err.message));
+    }
 
     return (
         <div>
@@ -11,22 +37,23 @@ const Login = () => {
                 <Row className='d-flex justify-content-center'>
                     <Col md={4} className='border rounded px-4 py-3'>
                         <h3 className='mb-4'>Login</h3>
-                        <Form>
+                        <Form onSubmit={handleLogin}>
+                            <Form.Text className="text-danger">
+                                {Error}
+                            </Form.Text>
+                            <Form.Text className="text-success">
+                                {Success}
+                            </Form.Text>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                {/* <Form.Label>Email address</Form.Label> */}
-                                <Form.Control type="email" placeholder="Enter email" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
-                                {/* <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text> */}
+                                <Form.Control type="email" name='email' placeholder="Enter email" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
-                                {/* <Form.Label>Password</Form.Label> */}
-                                <Form.Control type="password" placeholder="Password" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
+                                <Form.Control type="password" name='password' placeholder="Password" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
                             </Form.Group>
                             <Form.Group className="d-flex justify-content-between mb-3" controlId="formBasicCheckbox">
                                 <small>
-                                    <Form.Check type="checkbox" label="Remember Me"/>
+                                    <Form.Check type="checkbox" label="Remember Me" />
                                 </small>
                                 <small>
                                     <Link to="" className='text-warning'>Forget Password</Link>

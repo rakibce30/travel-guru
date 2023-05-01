@@ -8,6 +8,8 @@ import { AuthContext } from '../../Providers/AuthProvider';
 const Register = () => {
     const { userRegistration } = useContext(AuthContext);
     const [ Error, setError ] = useState('');
+    const [Success, setSuccess] = useState('');
+    const [Accepted, setAccepted] = useState(false);
 
     const handleRegistration = event => {
         event.preventDefault();
@@ -28,13 +30,15 @@ const Register = () => {
         userRegistration(email, password)
         .then(result => {
             console.log(result.user);
+            setSuccess("Registration successful")
             form.reset();
         })
         .catch(err => setError(err.message));
-
-
     }
 
+    const handleTerms = event => {
+        setAccepted(event.target.checked)
+    }
 
     return (
         <div>
@@ -45,6 +49,9 @@ const Register = () => {
                         <Form onSubmit={handleRegistration}>
                             <Form.Text className="text-danger">
                                 {Error}
+                            </Form.Text>
+                            <Form.Text className="text-success">
+                                {Success}
                             </Form.Text>
                             <Form.Group className="mb-3" >
                                 <Form.Control type="email" placeholder="First Name" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
@@ -62,8 +69,13 @@ const Register = () => {
                             <Form.Group className="mb-3" >
                                 <Form.Control type="password" name='confirm' placeholder="Confirm Password" className='border-top-0 border-start-0 border-end-0 border-bottom rounded-0' />
                             </Form.Group>
+                            <Form.Group className="d-flex justify-content-between mb-3" controlId="formBasicCheckbox">
+                                <small>
+                                    <Form.Check onClick={handleTerms} type="checkbox" label={<>Accepted <Link className='text-warning'>Term & Condition</Link></>}  />
+                                </small>
+                            </Form.Group>
 
-                            <Button variant="warning" type="submit" className='w-100 rounded-0'>
+                            <Button variant="warning" type="submit" disabled={!Accepted} className='w-100 rounded-0'>
                                 Submit
                             </Button>
                             <p className='mt-4'>

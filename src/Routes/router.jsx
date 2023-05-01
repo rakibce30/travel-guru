@@ -7,6 +7,7 @@ import LoginLayout from "../Layout/LoginLayout";
 import Register from "../Page/Register/Register";
 import PageNotFound from "../Page/PageNotFound/PageNotFound";
 import Packages from "../Page/Packages/Packages";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/booking',
-                element: <Booking></Booking>
+                element: <PrivateRoute><Booking></Booking></PrivateRoute>
             },
         ]
     },

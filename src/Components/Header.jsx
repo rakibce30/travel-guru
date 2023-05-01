@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -6,11 +6,19 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Logo from '../assets/logo.png'
 import { Link, useLocation } from 'react-router-dom';
+import { AuthContext } from '../Providers/AuthProvider';
+import { NavDropdown } from 'react-bootstrap';
 
 const Header = () => {
     const location = useLocation();
+    const { user, userLogout } = useContext(AuthContext);
 
+    const handleLogout = () => {
+        userLogout()
+            .then(result => console.log('Logout Successful'))
+            .catch(err => console.log(err))
 
+    }
     return (
         <Navbar expand="lg" variant="dark">
             <Container>
@@ -25,7 +33,7 @@ const Header = () => {
                             aria-label="Search"
                         />
                         <Button variant="outline-warning">Search</Button>
-                    </Form> 
+                    </Form>
                     }
                     <Nav
                         className="me-auto my-2 my-lg-0 text-right align-items-md-center"
@@ -36,7 +44,19 @@ const Header = () => {
                         <Link to="/booking" className='text-white text-decoration-none me-md-3'>Booking</Link>
                         <Link to="" className='text-white text-decoration-none me-md-3'>Blog</Link>
                         <Nav.Link className='text-white' href="#action2">Contact</Nav.Link>
-                        <Link to="/page/login"><Button className='btn-warning btn-sm ms-5'>Login</Button></Link>
+                        <div>
+                            {user ?
+                                <NavDropdown title={user.email} id="navbarScrollingDropdown">
+                                    <NavDropdown.Item>
+                                        Profile
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item onClick={handleLogout}>
+                                        Logout
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                                : <Link to="/page/login"><Button className='btn-warning btn-sm ms-5'>Login</Button></Link>}
+                        </div>
                     </Nav>
 
                 </Navbar.Collapse>
